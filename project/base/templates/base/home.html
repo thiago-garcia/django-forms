@@ -15,38 +15,44 @@
         <p class="subtitle-page">Dev Pro</p>
         <div class="form">
             <form class="login-form" method="post" action=".?x=1">
-                <input type="text" name="nome" placeholder="NOME" />
-                <input type="number" name="idade" placeholder="Idade" required="required" />
-                <input type="email" name="email" placeholder="EMAIL" />
+                <input type="text" name="nome" placeholder="NOME" value="{{ dados.nome }}" />
+                {% if erros.nome %}
+                    <p style="color: red">{{ erros.nome }}</p>
+                {% endif %}
+                <input type="number" name="idade" placeholder="Idade" required="required" value="{{ dados.idade }}" />
+                <input type="email" name="email" placeholder="EMAIL" value="{{ dados.email }}" />
+                {% if erros.email %}
+                    <p style="color: red">{{ erros.email }}</p>
+                {% endif %}
                 Sexo:
                 Masculino:
-                <input type="radio" name="sexo" value="Masculino" />
+                <input type="radio" name="sexo" value="Masculino" {% if dados.sexo == 'Masculino' %}checked="checked"{% endif %} />
                 Feminino:
-                <input type="radio" name="sexo" value="Feminino" />
+                <input type="radio" name="sexo" value="Feminino" {% if dados.sexo == 'Feminino' %}checked="checked"{% endif %} />
                 Outros
-                <input type="radio" name="sexo" value="Outros" />
+                <input type="radio" name="sexo" value="Outros" {% if dados.sexo == 'Outros' %}checked="checked"{% endif %} />
 
                 Faixa Etária:
                 Adulto:
-                <input type="radio" name="faixa_etaria" value="Adulto" />
+                <input type="radio" name="faixa_etaria" value="Adulto" {% if dados.faixa_etaria == 'Adulto' %}checked="checked"{% endif %} />
                 Criança:
-                <input type="radio" name="faixa_etaria" value="Criança" />
+                <input type="radio" name="faixa_etaria" value="Criança" {% if dados.faixa_etaria == 'Criança' %}checked="checked"{% endif %} />
 
                 Hobbies:
                 Futebol
-                <input type="checkbox" name="hobby" value="futebol" />
+                <input type="checkbox" name="hobby" value="futebol" {% if 'futebol' in dados.hobby %}checked="checked"{% endif %} />
                 Leitura
-                <input type="checkbox" name="hobby" value="leitura" />
+                <input type="checkbox" name="hobby" value="leitura" {% if 'leitura' in dados.hobby %}checked="checked"{% endif %} />
                 Games
-                <input type="checkbox" name="hobby" value="games" />        
+                <input type="checkbox" name="hobby" value="games" {% if 'games' in dados.hobby %}checked="checked"{% endif %} />        
                 
-                <textarea name="texto">Início</textarea>
+                <textarea name="texto">{{ dados.texto }}</textarea>
 
                 Estado:
                 <select name="estado">
-                    <option value="PR">Paraná</option>
-                    <option value="SC">Santa Catarina</option>
-                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="PR" {% if dados.estado == 'PR' %}selected="selected"{% endif %}>Paraná</option>
+                    <option value="SC" {% if dados.estado == 'SC' %}selected="selected"{% endif %}>Santa Catarina</option>
+                    <option value="RS" {% if dados.estado == 'RS' %}selected="selected"{% endif %}>Rio Grande do Sul</option>
                 </select>
                 
                 {% csrf_token %}
