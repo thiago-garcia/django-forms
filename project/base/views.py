@@ -1,30 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
+from project.base.forms import CadastroForm
+
 
 # Create your views here.
 
 def home(request):
-    dados = {}
-    campos_obrigatorios = {'nome', 'email'}
-    erros = {}
+    if request.method == 'POST':
+        form = CadastroForm(request.POST)
 
-    for chave in 'nome idade email sexo faixa_etaria hobby texto estado'.split():
-        valor = request.POST.getlist(chave)
-        if chave == 'hobby':
-            dados[chave] = valor
-        elif len(valor) == 1:
-            valor_extraido = valor[0]
-            dados[chave] = valor_extraido
-            if chave in campos_obrigatorios and valor_extraido == '':
-                erros[chave] = f'O campo {chave} é obrigatório'
-        elif len(valor) == 0:
-            dados[chave] = None
-            if chave in campos_obrigatorios:
-                erros[chave] = f'O campo {chave} é obrigatório'
-        else:
-            raise ValueError('Alguém mandou dados em formato impróprio')
-
-    if erros:
-        contexto = {'erros': erros, 'dados': dados}
-        return render(request, 'base/home.html', contexto)
+        if not form.is_valid():
+            return render(request, 'base/home.html', {'form': form})
+        return redirect('https://google.com')    
     
-    return render(request, 'base/home.html')
+    form = CadastroForm()
+    return render(request, 'base/home.html', {'form': form, 'teste': None})
