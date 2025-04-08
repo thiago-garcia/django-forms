@@ -1,5 +1,6 @@
 import json
 from django import forms
+from .models import Cadastro
 
 
 class JsonFormMixin():
@@ -9,14 +10,17 @@ class JsonFormMixin():
         return json.dumps(dct)
 
 
-class CadastroForm(forms.Form, JsonFormMixin):
-    nome = forms.CharField(label='NoMe', max_length=64, min_length=3, required=True)
+class CadastroForm(forms.ModelForm, JsonFormMixin):
+
+    class Meta:
+        model = Cadastro
+        fields = ('nome', 'email', 'idade', 'sexo', 'hobbies')
+
+    nome = forms.CharField(label='Nome', max_length=64, min_length=3, required=True)
     email = forms.EmailField(required=True)
     idade = forms.IntegerField()
     sexo = forms.ChoiceField(
-        required=False, 
-        choices=[('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Outros')]
-    )
+        choices=[('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Outros')])
     hobbies = forms.MultipleChoiceField(
         choices=[('futebol', 'Futebol'), ('game', 'Game'), ('leitura', 'Leitura')]
     )

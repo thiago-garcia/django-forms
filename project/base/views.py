@@ -11,6 +11,7 @@ def home(request):
 
         if not form.is_valid():
             return render(request, 'base/home.html', {'form': form})
+        form.save()
         return redirect('https://google.com')    
     
     form = CadastroForm()
